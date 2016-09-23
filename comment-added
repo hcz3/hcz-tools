@@ -1,0 +1,37 @@
+#!/usr/bin/python
+import json, sys
+from subprocess import Popen, PIPE
+
+change = sys.argv[2]
+for x in range(len(sys.argv)):
+    if sys.argv[x] == "--change":
+        change = sys.argv[x+1]
+        break
+
+username = "gerritUserName"
+server = "myhost.com"
+results = Popen([
+    "ssh", "-p", "29418", username+"@"+server, "gerrit", "query",
+    "--format", "JSON", "--all-approvals", change], stdout=PIPE).communicate()[0]
+parsed = json.loads(results.split("\n")[0])
+
+verified_min = 1
+reviewed_min = 2
+
+verified_count = 0
+reviewed_count = 0
+commit = parsed["patchSets"][-1]["revision"]
+
+if not parsed["patchSets"][-1].has_key("approvals"):
+    sys.exit(0)
+
+for approval in parsed["patchSets"][-1]["approvals"]:
+    if approval["type"] == "Verified":
+        verified_count += int(approval["value"])
+    elif approval["type"] == "Code-Review":
+        reviewed_count += int(approval["value"])
+
+if verified_count >= verified_min and reviewed_count >= reviewed_min:
+    results = Popen([
+        "ssh", "-p", "29418", username+"@"+server,
+        "gerrit", "review", "--submit", commit], stdout=PIPE).communicate()[0]
