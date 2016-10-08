@@ -8,8 +8,8 @@ for x in range(len(sys.argv)):
         change = sys.argv[x+1]
         break
 
-username = "gerritUserName"
-server = "myhost.com"
+username = "<YOUR_USERNAME>"
+server = "<YOUR_DOMAIN>"
 results = Popen([
     "ssh", "-p", "29418", username+"@"+server, "gerrit", "query",
     "--format", "JSON", "--all-approvals", change], stdout=PIPE).communicate()[0]
