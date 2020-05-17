@@ -41,3 +41,23 @@ class TestFizzBuzz(unittest.TestCase):
 
     def test_30_returns_fizzbuzz(self):
         assert FizzBuzz(30).result == "FizzBuzz"
+
+    def test_35_returns_fizzbuzz(self):
+        assert FizzBuzz(35).result == "FizzBuzz"
+
+    def test_13_returns_fizzbuzz(self):
+        assert FizzBuzz(13).result == "Fizz"
+
+    def test_50_returns_fizzbuzz(self):
+        assert FizzBuzz(50).result == "Buzz"
+
+    def test_53_returns_fizzbuzz(self):
+        assert FizzBuzz(53).result == "FizzBuzz"
+    
+    def test_57_returns_fizzbuzz(self):
+        assert FizzBuzz(57).result == "FizzBuzz"
+    
+    # will be useful if input range expands
+    # def test_130_returns_fizzbuzz(self):
+    #     assert FizzBuzz(130).result == "FizzBuzz"
+
